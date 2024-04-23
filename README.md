@@ -1,9 +1,9 @@
 # Customizer Framework
 
-__Contributors:__ Luke Watts
-__Tags:__ customizer, customizer framework, theme, theme customizer, mods, theme
-__Requires Wordpress:__ >=6.5
-__Requires PHP:__ >=8.2
+__Contributors:__ Luke Watts  
+__Tags:__ customizer, customizer framework, theme, theme customizer, mods, theme  
+__Requires Wordpress:__ >=6.5  
+__Requires PHP:__ >=8.2  
 
 The easiest framework for Theme Developer in using WordPress Customizer.
 
