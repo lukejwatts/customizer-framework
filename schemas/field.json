@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://github.com/lukejwatts/customizer-framework/blob/main/schemas/field.json",
+    "$id": "https://raw.githubusercontent.com/lukejwatts/customizer-framework/main/schemas/field.json",
     "title": "Customizer Framework field.json schema",
     "description": "Configure a new field in the Customizer",
     "type": "object",
