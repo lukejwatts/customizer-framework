@@ -4,6 +4,8 @@ namespace CustomizerFramework\Control;
 
 defined( 'ABSPATH' ) || exit;
 
+use function CustomizerFramework\assets_url;
+
 /**
  * Toggle Control.
  *
@@ -20,7 +22,7 @@ final class Toggle_Control extends \WP_Customize_Control
 	public function enqueue() {
 		// css
 		if ( wp_style_is( 'customizer-framework--checkbox-css', 'enqueued' ) == false ){
-			wp_enqueue_style( 'customizer-framework--checkbox-css', \CustomizerFramework\resource_url(). 'assets/checkbox/checkboxes.min.css' );
+			wp_enqueue_style( 'customizer-framework--checkbox-css', assets_url() . '/checkbox/checkboxes.min.css' );
 		}
 	}
 

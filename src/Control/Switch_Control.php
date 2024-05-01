@@ -4,6 +4,8 @@ namespace CustomizerFramework\Control;
 
 defined( 'ABSPATH' ) || exit;
 
+use function CustomizerFramework\assets_url;
+
 /**
  * Switch Control.
  *
@@ -20,7 +22,7 @@ final class Switch_Control extends \WP_Customize_Control
 	public function enqueue() {
 		// css
 		if( wp_style_is( 'customizer-framework--checkbox-css', 'enqueued' ) == false ){
-			wp_enqueue_style( 'customizer-framework--checkbox-css', \CustomizerFramework\resource_url(). 'assets/checkbox/checkboxes.min.css' );
+			wp_enqueue_style( 'customizer-framework--checkbox-css', assets_url() . '/checkbox/checkboxes.min.css' );
 		}
 	}
 
@@ -46,7 +48,6 @@ final class Switch_Control extends \WP_Customize_Control
 						<span class="description customize-control-description"><?php echo wp_kses_post( $this->description ); ?></span>
 					<?php endif; ?>
 				</label>
-
 				<div class="ckbx-style-9 customizer-framework--switch">
                     <input  type="checkbox"
                     		id="<?php echo esc_attr( $this->id ); ?>"
@@ -55,7 +56,6 @@ final class Switch_Control extends \WP_Customize_Control
                     		<?php echo $this->link(); ?>>
                     <label for="<?php echo esc_attr( $this->id ); ?>"></label>
                 </div>
-
 			</div>
 		</div>
 

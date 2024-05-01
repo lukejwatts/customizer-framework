@@ -44,7 +44,23 @@ function resource_url(): string
         return plugin_dir_url(__DIR__);
     }
 
-    return trailingslashit(get_template_directory_uri());
+    return trailingslashit(get_stylesheet_directory_uri());
+}
+
+/**
+ * Return the URL to the Customizer Framework assets directory.
+ *
+ * @since 1.0.0
+ *
+ * @return string
+ */
+function assets_url(string $directory = 'customizer-framework'): string
+{
+    if (strpos(wp_normalize_path(__DIR__), wp_normalize_path(WP_PLUGIN_DIR)) === 0) {
+        return plugin_dir_url(__DIR__) . "$directory/assets";
+    }
+
+    return get_stylesheet_directory_uri() . "/$directory/assets";
 }
 
 /**
@@ -66,7 +82,19 @@ function sanitize_argument(string $field, array $configs, array $rules): array
         if ( ! array_key_exists( $key , $configs ) ) {
             if ( $value['rule'] == 'required' ) {
                 \CustomizerFramework\alert_warning( 'Error 100: '. \CustomizerFramework\code( 'info', $key ) .' is required in field '. \CustomizerFramework\code( 'success', $field ) .'.' );
-                return false;
+                if (!array_key_exists('choices', $configs)) {
+                    $configs['choices'] = [];
+                }
+
+                if (!array_key_exists('default', $configs)) {
+                    $configs['default'] = '';
+                }
+
+                if (!array_key_exists('active_callback', $configs)) {
+                    $configs['active_callback'] = fn () => true;
+                }
+
+                return $configs;
             } elseif ( $value['rule'] == 'empty' ) {
                 $new_config[$key] = $value['default'];
             }
@@ -74,41 +102,41 @@ function sanitize_argument(string $field, array $configs, array $rules): array
             if ( $value['type'] == 'string' ) {
                 if ( empty( $configs[ $key ] ) && $value['rule'] == 'required' ) {
                     \CustomizerFramework\alert_warning( 'Error 100: '. \CustomizerFramework\code( 'info', $key ) .' is required in field '. \CustomizerFramework\code( 'success', $field ) .'.' );
-                    return false;
+                    return $configs;
                 } else {
                     if ( is_string( $configs[ $key ] ) == false ) {
                         \CustomizerFramework\alert_warning( 'Error 103: '. \CustomizerFramework\code( 'info', $key ) .' must be supplied string in field '. \CustomizerFramework\code( 'success', $field ) .'.' );
-                        return false;
+                        return $configs;
                     }
                 }
             } elseif ( $value['type'] == 'number' ) {
                 if ( ! isset( $configs[ $key ] )  && $value['rule'] == 'required' ) {
                     \CustomizerFramework\alert_warning( 'Error 100: '. \CustomizerFramework\code( 'info', $key ) .' is required in field '. \CustomizerFramework\code( 'success', $field ) .'.' );
-                    return false;
+                    return $configs;
                 } else {
                     if ( is_numeric( $configs[ $key ] ) == false ) {
                         \CustomizerFramework\alert_warning( 'Error 102: '. \CustomizerFramework\code( 'info', $key ) .' must be supplied numeric in field '. \CustomizerFramework\code( 'success', $field ) .'.' );
-                        return false;
+                        return $configs;
                     }
                 }
             } elseif ( $value['type'] == 'array' ) {
                 if ( empty( $configs[ $key ] ) && $value['rule'] == 'required' ) {
                     \CustomizerFramework\alert_warning( 'Error 100: '. \CustomizerFramework\code( 'info', $key ) .' is required in field '. \CustomizerFramework\code( 'success', $field ) .'.' );
-                    return false;
+                    return $configs;
                 } else  {
                     if ( ! is_array( $configs[ $key ] ) ) {
                         \CustomizerFramework\alert_warning( 'Error 101: '. \CustomizerFramework\code( 'info', $key ) .' must be supplied array in '. \CustomizerFramework\code( 'success', $field ) .'.' );
-                        return false;
+                        return $configs;
                     }
                 }
             } elseif ( $value['type'] == 'boolean' ) {
                 if ( empty( $configs[ $key ] ) && $value['rule'] == 'required' ) {
                     \CustomizerFramework\alert_warning( 'Error 100: '. \CustomizerFramework\code( 'info', $key ) .' is required in field '. \CustomizerFramework\code( 'success', $field ) .'.' );
-                    return false;
+                    return $configs;
                 } else  {
                     if ( ! is_bool( $configs[ $key ] ) ) {
                         \CustomizerFramework\alert_warning('Error 115: '. \CustomizerFramework\code( 'info', $key ) .' must be supplied boolean in '. \CustomizerFramework\code( 'success', $field ) .'.' );
-                        return false;
+                        return $configs;
                     }
                 }
             }
@@ -129,7 +157,7 @@ function sanitize_argument(string $field, array $configs, array $rules): array
  * @param  string  $field  The name of the field.
  * @return boolean
  */
-function check_arguments(array $rules = [], array $data, string $field): bool
+function check_arguments(array $rules, array $data, string $field): bool
 {
     if ( ! empty( $data ) ) {
         $keys = array_keys( $data );
@@ -388,22 +416,22 @@ function p(string $string): string
  */
 function is_valid_unit(array $units, string $field): bool
 {
-$allowed = ['px', 'em', 'ex', 'ch', 'rem', 'vw', 'vh', 'vmin', 'vmax', '%'];
-if (!empty($units) && is_array($units)) {
-    $unique_units = array_unique($units);
-    foreach ($unique_units as $key => $value) {
-        if (!in_array($value, $allowed)) {
-            \CustomizerFramework\alert_warning( 'Error 114: '. \CustomizerFramework\code( 'error', $value ) .' is invalid unit in field '. \CustomizerFramework\code( 'success', $field ) .'.' );
+    $allowed = ['px', 'em', 'ex', 'ch', 'rem', 'vw', 'vh', 'vmin', 'vmax', '%'];
+    if (!empty($units) && is_array($units)) {
+        $unique_units = array_unique($units);
+        foreach ($unique_units as $key => $value) {
+            if (!in_array($value, $allowed)) {
+                \CustomizerFramework\alert_warning( 'Error 114: '. \CustomizerFramework\code( 'error', $value ) .' is invalid unit in field '. \CustomizerFramework\code( 'success', $field ) .'.' );
 
-            return false;
-            break;
+                return false;
+                break;
+            }
         }
+
+        return true;
     }
 
-    return true;
-}
-
-return false;
+    return false;
 }
 
 /**
@@ -418,24 +446,24 @@ return false;
  */
 function is_valid_default(string|array $default, array $choices, string $field): bool
 {
-if (!empty($default)) {
-    if (gettype($default) === 'array') {
-        foreach ($default as $key => $value) {
-            if (!array_key_exists($value, $choices)) {
-                \CustomizerFramework\alert_warning('Error 305: default value '. \CustomizerFramework\code( 'error', $value ) .' does not exists in choices in field '. \CustomizerFramework\code( 'success', $field ) .'.');
+    if (!empty($default)) {
+        if (gettype($default) === 'array') {
+            foreach ($default as $key => $value) {
+                if (!array_key_exists($value, $choices)) {
+                    \CustomizerFramework\alert_warning('Error 305: default value '. \CustomizerFramework\code( 'error', $value ) .' does not exists in choices in field '. \CustomizerFramework\code( 'success', $field ) .'.');
+
+                    return false;
+                }
+            }
+        } else {
+            if (!array_key_exists($default, $choices)) {
+                \CustomizerFramework\alert_warning('Error 305: default value '. \CustomizerFramework\code( 'error', $default ) .' does not exists in choices in field '. \CustomizerFramework\code( 'success', $field ) .'.');
 
                 return false;
             }
         }
-    } else {
-        if (!array_key_exists($default, $choices)) {
-            \CustomizerFramework\alert_warning('Error 305: default value '. \CustomizerFramework\code( 'error', $default ) .' does not exists in choices in field '. \CustomizerFramework\code( 'success', $field ) .'.');
-
-            return false;
-        }
     }
-}
-return true;
+    return true;
 }
 
 /**
@@ -450,66 +478,66 @@ return true;
  */
 function is_valid_argument_value(array $args): bool
 {
-if (empty($args['type'])) {
-    $args['type'] = '';
-}
+    if (empty($args['type'])) {
+        $args['type'] = '';
+    }
 
-if (!empty($args['value'])) {
-    if (is_array( $args['value'])) {
-        foreach ($args['value'] as $key => $value) {
-            if ($args['type'] == 'key') {
+    if (!empty($args['value'])) {
+        if (is_array( $args['value'])) {
+            foreach ($args['value'] as $key => $value) {
+                if ($args['type'] == 'key') {
+                    // checking in array key
+                    if (!array_key_exists($value, $args['valid'])) {
+                        if (empty( $args['allowed'])) {
+                            \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $value ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'.' );
+                        } else {
+                            \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $value ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'. Here are the list of valid '. \CustomizerFramework\code( 'info', $args['allowed'] ) .'.' );
+                        }
+
+                        return false;
+                    }
+                } else {
+                    // checking in array value
+                    if (!in_array($value,  $args['valid'])) {
+                        if (empty($args['allowed'])) {
+                            \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $value ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'.' );
+                        } else {
+                            \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $value ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'. Here are the list of valid '. \CustomizerFramework\code( 'info', $args['allowed'] ) .'.' );
+                        }
+
+                        return false;
+                    }
+                }
+            }
+        } else {
+            if ($args['type'] === 'key') {
                 // checking in array key
-                if (!array_key_exists($value, $args['valid'])) {
-                    if (empty( $args['allowed'])) {
-                        \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $value ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'.' );
+                if (!array_key_exists($args['value'], $args['valid'])) {
+                    if (empty($args['allowed'])) {
+                        \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $args['value'] ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'.' );
                     } else {
-                        \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $value ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'. Here are the list of valid '. \CustomizerFramework\code( 'info', $args['allowed'] ) .'.' );
+                        \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $args['value'] ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'. Here are the list of valid '. \CustomizerFramework\code( 'info', $args['allowed'] ) .'.' );
                     }
 
                     return false;
                 }
             } else {
                 // checking in array value
-                if (!in_array($value,  $args['valid'])) {
-                    if (empty($args['allowed'])) {
-                        \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $value ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'.' );
+                if (!in_array($args['value'], $args['valid'])) {
+                    if (empty( $args['allowed'])) {
+                        \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $args['value'] ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'.' );
                     } else {
-                        \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $value ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'. Here are the list of valid '. \CustomizerFramework\code( 'info', $args['allowed'] ) .'.' );
+                        \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $args['value'] ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'. Here are the list of valid '. \CustomizerFramework\code( 'info', $args['allowed'] ) .'.' );
                     }
 
                     return false;
                 }
             }
+
         }
-    } else {
-        if ($args['type'] === 'key') {
-            // checking in array key
-            if (!array_key_exists($args['value'], $args['valid'])) {
-                if (empty($args['allowed'])) {
-                    \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $args['value'] ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'.' );
-                } else {
-                    \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $args['value'] ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'. Here are the list of valid '. \CustomizerFramework\code( 'info', $args['allowed'] ) .'.' );
-                }
-
-                return false;
-            }
-        } else {
-            // checking in array value
-            if (!in_array($args['value'], $args['valid'])) {
-                if (empty( $args['allowed'])) {
-                    \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $args['value'] ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'.' );
-                } else {
-                    \CustomizerFramework\alert_warning( 'Error 305: '. $args['argument'] .' value '. \CustomizerFramework\code( 'error', $args['value'] ) .' is invalid in field '. \CustomizerFramework\code( 'success', $args['field'] ) .'. Here are the list of valid '. \CustomizerFramework\code( 'info', $args['allowed'] ) .'.' );
-                }
-
-                return false;
-            }
-        }
-
     }
-}
 
-return true;
+    return true;
 }
 
 /**
@@ -523,7 +551,7 @@ return true;
  **/
 function set_default(mixed $value, mixed $default): mixed
 {
-return (empty($value) ? $default : $value);
+    return (empty($value) ? $default : $value);
 }
 
 /**
@@ -536,14 +564,14 @@ return (empty($value) ? $default : $value);
  */
 function get_keys_imploded(array $array): string
 {
-$output = '';
-if (!empty($array)) {
-    if (is_array($array)) {
-        $output = implode(', ', array_keys($array));
+    $output = '';
+    if (!empty($array)) {
+        if (is_array($array)) {
+            $output = implode(', ', array_keys($array));
+        }
     }
-}
 
-return $output;
+    return $output;
 }
 
 /**
@@ -557,13 +585,13 @@ return $output;
  */
 function is_valid_date(string $date, string $format): bool
 {
-if (!empty($date)) {
-    $date_obj = \DateTime::createFromFormat( $format, $date );
+    if (!empty($date)) {
+        $date_obj = \DateTime::createFromFormat( $format, $date );
 
-    return $date_obj && $date_obj->format( $format ) == $date;
-}
+        return $date_obj && $date_obj->format( $format ) == $date;
+    }
 
-return false;
+    return false;
 }
 
 /**
@@ -576,7 +604,7 @@ return false;
  */
 function array_has_dupes(array $array): bool
 {
-return count($array) !== count(array_unique($array));
+    return count($array) !== count(array_unique($array));
 }
 
 
@@ -591,14 +619,14 @@ return count($array) !== count(array_unique($array));
  */
 function get_special_values(string $setting): array
 {
-$output = [];
-if (!empty($setting) && !empty($value = get_theme_mod($setting))) {
-    $output = (!is_array($value))
-        ? explode(',', $value)
-        : $value;
-}
+    $output = [];
+    if (!empty($setting) && !empty($value = get_theme_mod($setting))) {
+        $output = (!is_array($value))
+            ? explode(',', $value)
+            : $value;
+    }
 
-return $output;
+    return $output;
 }
 
 /**
@@ -611,14 +639,14 @@ return $output;
  */
 function get_decoded_values(string $setting): array
 {
-$output = [];
-if (!empty($setting) && !empty($value = get_theme_mod($setting))) {
-    $output = (is_array($value))
-        ? $value
-        : json_decode(get_theme_mod($setting));
-}
+    $output = [];
+    if (!empty($setting) && !empty($value = get_theme_mod($setting))) {
+        $output = (is_array($value))
+            ? $value
+            : json_decode(get_theme_mod($setting));
+    }
 
-return $output;
+    return $output;
 }
 
 /**
@@ -633,14 +661,14 @@ return $output;
  */
 function push_default_validation(array $config, array $default_validations): array
 {
-$config['validations'] = $default_validations;
-if (array_key_exists('validations', $config)) {
-    foreach ($default_validations as $_ => $validation) {
-        array_push($config['validations'], $validation);
+    $config['validations'] = $default_validations;
+    if (array_key_exists('validations', $config)) {
+        foreach ($default_validations as $_ => $validation) {
+            array_push($config['validations'], $validation);
+        }
     }
-}
 
-return $config;
+    return $config;
 }
 
 /**
@@ -655,36 +683,36 @@ return $config;
  */
 function code(string $type = 'default', string $message = ''): string
 {
-switch ($type) {
-    case 'default':
-        $background = '#d4d4d4';
-        $border_color = '#9c9b9b';
+    switch ($type) {
+        case 'default':
+            $background = '#d4d4d4';
+            $border_color = '#9c9b9b';
 
-        break;
-    case 'info':
-        $background = '#2989ec';
-        $border_color = '#196dc3';
+            break;
+        case 'info':
+            $background = '#2989ec';
+            $border_color = '#196dc3';
 
-        break;
-    case 'error':
-        $background = '#f32b0a';
-        $border_color = '#bb1f06';
+            break;
+        case 'error':
+            $background = '#f32b0a';
+            $border_color = '#bb1f06';
 
-        break;
-    case 'success':
-        $background = '#26d04b';
-        $border_color = '#0c962a';
+            break;
+        case 'success':
+            $background = '#26d04b';
+            $border_color = '#0c962a';
 
-        break;
-    default:
-        $background = '#000000';
-        $border_color = '#000000';
-        break;
-}
+            break;
+        default:
+            $background = '#000000';
+            $border_color = '#000000';
+            break;
+    }
 
-$template = '<code style="background: '. $background .'; padding: 4px; border-radius: 3px; color: black;border: 1px solid #'. $border_color .';" >'. $message .'</code>';
+    $template = '<code style="background: '. $background .'; padding: 4px; border-radius: 3px; color: black;border: 1px solid #'. $border_color .';" >'. $message .'</code>';
 
-return $template;
+    return $template;
 }
 
 /**
@@ -891,4 +919,26 @@ function unique(array $array, mixed $default): mixed
     }
 
     return $output;
+}
+
+/**
+ * Check if a value is an unsigned integer.
+ *
+ * @param mixed $value The value to check.
+ *
+ * @return bool True if the value is an unsigned integer, false otherwise.
+ */
+function is_unsigned_integer(mixed $value): bool
+{
+    if (is_bool($value)) {
+        return false;
+    }
+
+    if ((is_int($value) && $value >= 0)) {
+        return true;
+    } elseif (is_string($value) && ctype_digit($value)) {
+        return true;
+    }
+
+    return false;
 }

@@ -2,9 +2,9 @@
 
 namespace CustomizerFramework\Control;
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
-use CustomizerFramework\Attachment\Attachment;
+use CustomizerFramework\Inc\Attachment;
 
 /**
  * Audio Uploader Control.
@@ -14,15 +14,12 @@ use CustomizerFramework\Attachment\Attachment;
  */
 final class Audio_Uploader_Control extends \WP_Customize_Control
 {
-	/**
-	 * List of valid extensions [ 'mp3', 'm4a', 'ogg', 'wav', 'mpg' ].
-	 *
-	 * @since 1.0.0
+    /**
+	 * The extensions set by the Control/Setting.
 	 *
 	 * @var array
 	 */
-	public $extensions;
-
+	public array $extensions = ['mp3', 'm4a', 'ogg', 'wav', 'mpg'];
 
 	/**
 	 * Holds the placeholder.
@@ -31,8 +28,7 @@ final class Audio_Uploader_Control extends \WP_Customize_Control
 	 *
 	 * @var string
 	 */
-	public $placeholder;
-
+	public string $placeholder = '';
 
 	/**
 	 * Instantiating Attachment
@@ -52,9 +48,9 @@ final class Audio_Uploader_Control extends \WP_Customize_Control
 			'extensions'	=> $this->extensions,
 			'value'			=> $this->value()
 		]);
+
 		return $attachment;
 	}
-
 
 	/**
 	 * Render the audion uploader controller and display in frontend.

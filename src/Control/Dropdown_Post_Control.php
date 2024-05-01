@@ -54,7 +54,8 @@ final class Dropdown_Post_Control extends \WP_Customize_Control
 	 *
 	 * @return html
 	 */
-	public function render_content() {
+	public function render_content()
+    {
 	?>
 		<div class="customizer-framework--dropdown-post-parent">
 			<label>

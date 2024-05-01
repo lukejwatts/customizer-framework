@@ -4,6 +4,8 @@ namespace CustomizerFramework\Control;
 
 defined( 'ABSPATH' ) || exit;
 
+use function CustomizerFramework\assets_url;
+
 /**
  * Code Editor Control.
  *
@@ -31,37 +33,37 @@ final class Code_Editor_Control extends \WP_Customize_Control
 	public function enqueue() {
 		// styles
 		if ( wp_style_is( 'customizer-framework-codemirror-css', 'enqueued' ) == false ) {
-			wp_enqueue_style( 'customizer-framework-codemirror-css', \CustomizerFramework\resource_url(). 'assets/codemirror/lib/codemirror.css'  );
+			wp_enqueue_style( 'customizer-framework-codemirror-css', assets_url() . '/codemirror/lib/codemirror.css'  );
 		}
 
 		// js
 		if ( wp_script_is( 'customizer-framework-codemirror-js', 'enqueued' ) == false ) {
-			wp_enqueue_script( 'customizer-framework-codemirror-js', \CustomizerFramework\resource_url(). 'assets/codemirror/lib/codemirror.js', array(), '1.0', true );
+			wp_enqueue_script( 'customizer-framework-codemirror-js', assets_url() . '/codemirror/lib/codemirror.js', array(), '1.0', true );
 		}
 
 		// modes
 		if ( wp_script_is( 'customizer-framework-codemirror-htmlmixed-js', 'enqueued' ) == false ) {
-			wp_enqueue_script( 'customizer-framework-codemirror-htmlmixed-js', \CustomizerFramework\resource_url(). 'assets/codemirror/mode/htmlmixed/htmlmixed.js', array(), '1.0', true );
+			wp_enqueue_script( 'customizer-framework-codemirror-htmlmixed-js', assets_url() . '/codemirror/mode/htmlmixed/htmlmixed.js', array(), '1.0', true );
 		}
 
 		if ( wp_script_is( 'customizer-framework-codemirror-xml-js', 'enqueued' ) == false ) {
-			wp_enqueue_script( 'customizer-framework-codemirror-xml-js', \CustomizerFramework\resource_url(). 'assets/codemirror/mode/xml/xml.js', array(), '1.0', true );
+			wp_enqueue_script( 'customizer-framework-codemirror-xml-js', assets_url() . '/codemirror/mode/xml/xml.js', array(), '1.0', true );
 		}
 
 		if ( wp_script_is( 'customizer-framework-codemirror-javascript-js', 'enqueued' ) == false ) {
-			wp_enqueue_script( 'customizer-framework-codemirror-javascript-js', \CustomizerFramework\resource_url(). 'assets/codemirror/mode/javascript/javascript.js', array(), '1.0', true );
+			wp_enqueue_script( 'customizer-framework-codemirror-javascript-js', assets_url() . '/codemirror/mode/javascript/javascript.js', array(), '1.0', true );
 		}
 
 		if ( wp_script_is( 'customizer-framework-codemirror-css-js', 'enqueued' ) == false ) {
-			wp_enqueue_script( 'customizer-framework-codemirror-css-js', \CustomizerFramework\resource_url(). 'assets/codemirror/mode/css/css.js', array(), '1.0', true );
+			wp_enqueue_script( 'customizer-framework-codemirror-css-js', assets_url() . '/codemirror/mode/css/css.js', array(), '1.0', true );
 		}
 
 		if ( wp_script_is( 'customizer-framework-codemirror-clike-js', 'enqueued' ) == false ) {
-			wp_enqueue_script( 'customizer-framework-codemirror-clike-js', \CustomizerFramework\resource_url(). 'assets/codemirror/mode/clike/clike.js', array(), '1.0', true );
+			wp_enqueue_script( 'customizer-framework-codemirror-clike-js', assets_url() . '/codemirror/mode/clike/clike.js', array(), '1.0', true );
 		}
 
 		if ( wp_script_is( 'customizer-framework-codemirror-php-js', 'enqueued' ) == false ) {
-			wp_enqueue_script( 'customizer-framework-codemirror-php-js', \CustomizerFramework\resource_url(). 'assets/codemirror/mode/php/php.js', array(), '1.0', true );
+			wp_enqueue_script( 'customizer-framework-codemirror-php-js', assets_url() . '/codemirror/mode/php/php.js', array(), '1.0', true );
 		}
 	}
 

@@ -19,32 +19,7 @@ final class Size_Control extends \WP_Customize_Control
 	 *
 	 * @var array
 	 */
-	public array $units;
-
-
-	/**
-	 * Holds the placeholder.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var string
-	 */
-	public string $placeholder;
-
-
-	/**
-	 * Return unit array to single string.
-	 *
-	 * @since 1.0.0
-     *
-	 * @return string
-	 */
-	private function data_unit() {
-		if ( ! empty( $this->units ) ) {
-			return implode( ',', $this->units );
-		}
-	}
-
+	public array $units = [];
 
 	/**
 	 * Render the size controller and display in frontend.
@@ -53,32 +28,47 @@ final class Size_Control extends \WP_Customize_Control
 	 *
 	 * @return html
 	 */
-	public function render_content() {
+	public function render_content()
+    {
 	?>
 		<div class="customizer-framework--size-parent">
-			<label>
-				<?php if ( ! empty( $this->label ) ): ?>
-					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-				<?php endif; ?>
-
-				<?php if ( ! empty( $this->description ) ): ?>
-					<span class="description customize-control-description"><?php echo wp_kses_post( $this->description ); ?></span>
-				<?php endif; ?>
+			<label for="<?php echo esc_attr($this->id); ?>">
+				<?php if (!empty($this->label)) : ?>
+					<span class="customize-control-title">
+                        <?php echo esc_html($this->label); ?>
+                    </span>
+				<?php endif ?>
+				<?php if (!empty($this->description)) : ?>
+					<span class="description customize-control-description">
+                        <?php echo wp_kses_post( $this->description ) ?>
+                    </span>
+				<?php endif ?>
 			</label>
-
-			<input type="hidden"
-				   id="<?php echo esc_attr( $this->id ); ?>"
-				   class="customizer-framework--size"
-				   value="<?php echo esc_attr( $this->value() ); ?>"
-				   <?php $this->link(); ?>>
-
-			<input type="text"
-				   id="<?php echo esc_attr( $this->id ); ?>-mirror"
-				   class="customizer-framework--size-mirror"
-				   value="<?php echo esc_attr( $this->value() ); ?>"
-				   placeholder="<?php echo esc_attr( $this->placeholder ); ?>"
-				   data-units="<?php echo esc_attr( $this->data_unit() ); ?>">
-
+			<input
+                type="hidden"
+				id="<?php echo esc_attr($this->id) ?>_hidden"
+				class="customizer-framework--size"
+				value="<?php echo esc_attr($this->value()) ?>"
+				<?php $this->link(); ?>
+            >
+			<input
+                type="text"
+				id="<?php echo esc_attr($this->id) ?>"
+				class="customizer_framework__size_field customizer-framework--size-mirror"
+				value="<?php echo esc_attr($this->value()) ?>"
+				placeholder="<?php echo (isset($this->input_attrs['placeholder'])) ? esc_attr( $this->input_attrs['placeholder'] ) : '' ?>"
+				data-units="<?php echo esc_attr(implode(',', $this->units)) ?>"
+            >
+            <label for="<?php echo esc_attr($this->id) ?>_units" style="margin-top: 1rem;"><em>Select Unit</em></label>
+            <select
+                class="customizer_framework__size_unit_select"
+                name="<?php echo esc_attr($this->id) ?>_unit"
+                id="<?php echo esc_attr($this->id) ?>_units"
+            >
+                <?php foreach ($this->units as $unit) : ?>
+                    <option value="<?php echo $unit ?>"><?php echo $unit ?></option>
+                <?php endforeach ?>
+            </select>
 		</div>
 	<?php
 	}

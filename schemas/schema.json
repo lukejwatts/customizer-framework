@@ -1,46 +1,24 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://raw.githubusercontent.com/lukejwatts/customizer-framework/main/schemas/schema.json",
+    "$id": "schema.json",
     "title": "Customizer Framework customizer.json schema",
     "description": "Configure Customizer Framework through a JSON file, much like how theme.json works.",
     "type": "object",
     "properties": {
-        "panel": {
+        "panels": {
             "description": "Configure a new panel in the Customizer",
-            "type": "object",
-            "required": ["id", "title"],
-            "properties": {
-                "id": {
-                    "description": "ID of the panel",
-                    "type": "string"
-                },
-                "title": {
-                    "description": "",
-                    "type": "string"
-                },
-                "description": {
-                    "description": "",
-                    "type": "string"
-                },
-                "priority": {
-                    "description": "",
-                    "type": "integer",
-                    "minimum": 0
-                },
-                "sections": {
-                    "description": "Configure a section in the current panel in the Customizer.",
-                    "type": "array",
-                    "items": {
-                        "$ref": "https://raw.githubusercontent.com/lukejwatts/customizer-framework/main/schemas/section.json"
-                    }
-                }
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "$ref": "panel.json"
             }
         },
         "sections": {
             "description": "Configure a new section in the Customizer. Use this if you wish to attach a section to an existing panel which was not configured using customizer.json",
             "type": "array",
+            "minItems": 1,
             "items": {
-                "$ref": "https://raw.githubusercontent.com/lukejwatts/customizer-framework/main/schemas/section.json"
+                "$ref": "section.json"
             }
         },
         "fields": {
@@ -48,8 +26,12 @@
             "type": "array",
             "minItems": 1,
             "items": {
-                "$ref": "https://raw.githubusercontent.com/lukejwatts/customizer-framework/main/schemas/field.json"
+                "$ref": "field.json"
             }
+        },
+        "domain": {
+            "type": "string",
+            "description": "Domain for translations of titles, labels, descriptions, placeholders etc."
         }
     }
 }

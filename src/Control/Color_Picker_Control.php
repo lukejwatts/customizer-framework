@@ -4,6 +4,8 @@ namespace CustomizerFramework\Control;
 
 defined( 'ABSPATH' ) || exit;
 
+use function CustomizerFramework\assets_url;
+
 /**
  * Color Picker Control.
  *
@@ -92,12 +94,12 @@ final class Color_Picker_Control extends \WP_Customize_Control
 	public function enqueue() {
 		// css
 		if ( wp_style_is( 'customizer-framework--pickr-css', 'enqueued' ) == false ){
-			wp_enqueue_style( 'customizer-framework--pickr-css', \CustomizerFramework\resource_url(). 'assets/pickr/pickr.min.css' );
+			wp_enqueue_style( 'customizer-framework--pickr-css', assets_url() . '/pickr/pickr.min.css' );
 		}
 
 		// js
 		if ( wp_script_is( 'customizer-framework--pickr-js', 'enqueued' ) == false ){
-			wp_enqueue_script( 'customizer-framework--pickr-js', \CustomizerFramework\resource_url(). 'assets/pickr/pickr.min.js', array(), '1.0', true );
+			wp_enqueue_script( 'customizer-framework--pickr-js', assets_url() . '/pickr/pickr.min.js', array(), '1.0', true );
 		}
 	}
 

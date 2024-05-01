@@ -9,9 +9,9 @@ The easiest framework for Theme Developer in using WordPress Customizer.
 
 ## Description
 
-Simplified static wrapper for the Wordpress Customizer API. Removes the need to define a seperate `setting` and `control`, and instead adds a `field` method which does configures both the `setting` and `control` in one method. Also The Cusomizer Framework adds many new control types which can be used.
+Simplified static wrapper for the Wordpress Customizer API. Removes the need to define a seperate `setting` and `control` , and instead adds a `field` method which does configures both the `setting` and `control` in one method. Also The Cusomizer Framework adds many new control types which can be used.
 
-## Available Controls (33):
+## Available Controls:
 
 * [Audio Uploader](#audio-uploader)
 * [Button Set](#button-set)
@@ -28,8 +28,6 @@ Simplified static wrapper for the Wordpress Customizer API. Removes the need to 
 * [Dropdown Post](#dropdown-post)
 * [Email](#email)
 * [File Uploader](#file-uploader)
-* [Image Checkbox](#image-checkbox)
-* [Image Radio](#image-radio)
 * [Image Uploader](#image-uploader)
 * [Markup](#markup)
 * [Numeric](#numeric)
@@ -37,7 +35,6 @@ Simplified static wrapper for the Wordpress Customizer API. Removes the need to 
 * [Range](#range)
 * [Select](#select)
 * [Size](#size)
-* [Sortable](#sortable)
 * [Switch](#switch)
 * [Tagging Select](#tagging-select)
 * [Tagging](#tagging)
@@ -180,7 +177,7 @@ Customizer::section('section_id', [
 
 ```
 
-Adding section inside a panel, you just need to add `panel` in section and copy the panel `id`.
+Adding section inside a panel, you just need to add `panel` in section and copy the panel `id` .
 
 ```php
 Customizer::section('section_id', [
@@ -195,7 +192,6 @@ Customizer::section('section_id', [
 #### Parameters
 
 Here are the parameters for creating section.
-
 
 __id__
 
@@ -318,7 +314,7 @@ Customizer::field( 'audio-uploader', [
 ] );
 ```
 
-Example with `extensions` value! note: here are the list of allowed extensions `mp3`, `m4a`, `ogg`, `wav` and `mpg`.
+Example with `extensions` value! note: here are the list of allowed extensions `mp3` , `m4a` , `ogg` , `wav` and `mpg` .
 
 ```php
 Customizer::field( 'audio-uploader', [
@@ -343,7 +339,7 @@ wp_get_attachment_url(get_theme_mod('audiodb1'));
 
 #### Button Set
 
-The button-set lets you add a field for selecting data in set of button.
+The button-set lets you add a field for selecting data in a set of button.
 
 #### Parameters
 
@@ -436,6 +432,7 @@ The `get_theme_mod()` function is recommended to retrieve data.
 // Return a string
 echo get_theme_mod('buttonsetdb1');
 ```
+
 #### Checkbox
 
 The `checkbox` lets you add a field checkbox.
@@ -494,7 +491,7 @@ Customizer::field('checkbox', [
 ]);
 ```
 
-Example with `default` value! note: default value must be provided `boolean`.
+Example with `default` value! note: default value must be provided `boolean` .
 
 ```php
 Customizer::field('checkbox', [
@@ -585,7 +582,7 @@ Customizer::field('checkbox-multiple', [
 ]);
 ```
 
-Example with `default` value! note: default value must exist in `choices`.
+Example with `default` value! note: default value must exist in `choices` .
 
 ```php
 Customizer::field('checkbox-multiple', [
@@ -605,16 +602,18 @@ Customizer::field('checkbox-multiple', [
 
 #### Usage
 
-The `\CustomizerFramework\get_special_values()` function is recommended to retrieve data.
+The `get_theme_mod()` function is recommended to retrieve data.
+
+__NOTE:__ The choices will be returned in a comma seperated string of the keys e.g. "apple, orange"
 
 ```php
 // Return a array
-$choices = \CustomizerFramework\get_special_values('multiplecheckboxdb1');
+$choices = json_decode(get_theme_mod(('multiplecheckboxdb1')));
 ```
 
+### Checkbox Pill
 
-Checkbox Pill
-The checkbox-pill lets you add a field for selecting data.
+The `checkbox-pill` lets you add a field for selecting data.
 
 Inline style.
 
@@ -698,8 +697,7 @@ Customizer::field('checkbox-pill', [
 ]);
 ```
 
-Example with `default` value! note: default value must exist in `choices`.
-
+Example with `default` value! note: default value must exist in `choices` .
 
 ```php
 Customizer::field('checkbox-pill', [
@@ -721,7 +719,7 @@ Customizer::field('checkbox-pill', [
 ]);
 ```
 
-Example with `style`! note: style values are `inline` and `default` is in `choices`
+Example with `style` . Style can be `inline` or `list` .
 
 ```php
 Customizer::field('checkbox-pill', [
@@ -746,11 +744,11 @@ Customizer::field('checkbox-pill', [
 
 #### Usage
 
-The `\CustomizerFramework\get_special_values()` function is recommended to retrieve data.
+The `get_theme_mod()` function is recommended to retrieve data.
 
 ```php
 // Returns a array
-$choices = \CustomizerFramework\get_special_values('checkboxpilldb1');
+$choices = json_decode(get_theme_mod('checkboxpilldb1'));
 ```
 
 #### Code Editor
@@ -817,7 +815,7 @@ Customizer::field('code-editor', [
 ]);
 ```
 
-Example with `default` value! note: default value must exist in `choices`.
+Example with `default` value! note: default value must exist in `choices` .
 
 ```php
 Customizer::field('code-editor', [
@@ -830,7 +828,7 @@ Customizer::field('code-editor', [
 ]);
 ```
 
-Example with `langauage`! note: here are the list of allowed language `html`, `css`, `javascript` and `php`.
+Example with `langauage` ! note: here are the list of allowed language `html` , `css` , `javascript` and `php` .
 
 ```php
 Customizer::field('code-editor', [
@@ -847,7 +845,6 @@ Customizer::field('code-editor', [
 #### Usage
 
 The `get_theme_mod()` function is recommended to retrieve data.
-
 
 ```php
 // Return a string
@@ -925,7 +922,7 @@ Customizer::field('color-picker', [
 ]);
 ```
 
-Example with `opacity`! note: opacity value is `boolean`.
+Example with `opacity` ! note: opacity value is `boolean` .
 
 ```php
 Customizer::field('color-picker', [
@@ -942,7 +939,7 @@ Customizer::field('color-picker', [
 
 #### Usage
 
-The `get_theme_mod()`function is recommended to retrieve data.
+The `get_theme_mod()` function is recommended to retrieve data.
 
 ```php
 // Return a string
@@ -1031,7 +1028,7 @@ Customizer::field( 'color-set', [
 ] );
 ```
 
-The Customizer provides material colors. Here are material color set : `all`, `primary`, `a100`, `a200`, `a400`, `a700`, `red`, `pink`, `purple`, `deepPurple`, `indigo`, `lightBlue`, `cyan`, `teal`, `green`, `lightGreen`, `lime`, `yellow`, `amber`, `orange`, `deepOrange`, `brown`, `grey` and `blueGrey`.
+The Customizer provides material colors. Here are material color set : `all` , `primary` , `a100` , `a200` , `a400` , `a700` , `red` , `pink` , `purple` , `deepPurple` , `indigo` , `lightBlue` , `cyan` , `teal` , `green` , `lightGreen` , `lime` , `yellow` , `amber` , `orange` , `deepOrange` , `brown` , `grey` and `blueGrey` .
 
 ```php
 use CustomizerFramework\Core\Customizer;
@@ -1285,11 +1282,11 @@ Customizer::field( 'date-picker', [
 
 #### Usage
 
-The `\CustomizerFramework\get_special_values()` function is recommended to retrieve data.
+The `get_theme_mod()` function is recommended to retrieve data.
 
 ```php
 // Return a array
-$date = \CustomizerFramework\get_special_values('datepickerdb1');
+$date = explode(',', get_theme_mod('datepickerdb1'));
 ```
 
 #### Dropdown Custom Post
@@ -1393,6 +1390,7 @@ $post = get_post(get_theme_mod('dropdowncustompostdb1'));
 ```
 
 #### Dropdown Page
+
 The `dropdown-page` lets you add a select field with list of pages.
 
 #### Parameters
@@ -1548,7 +1546,7 @@ Customizer::field('dropdown-post', [
 ]);
 ```
 
-Example with `default` value! note: default value must existing `post id`.
+Example with `default` value! note: default value must existing `post id` .
 
 ```php
 Customizer::field('dropdown-post', [
@@ -1768,435 +1766,6 @@ The `get_theme_mod()` function is recommended to retrieve data.
 ```php
 // Getting the url
 wp_get_attachement_url(get_theme_mod('filedb1'));
-```
-
-#### Image Checkbox
-The `image-checkbox` lets you add image checkbox field.
-
-#### Parameters
-
-Here are the parameters in adding image-checkbox.
-
-__id__
-
-_string | required_
-
-A unique slug-like string to use as an id and also as index in saving data in database.
-
-__label__
-
-_string | optional_
-
-The label of the field.
-
-__description__
-
-_string | optional_
-
-The description of the field and display under the label.
-
-__section__
-
-_string | requiredl_
-
-The section where the field will be displayed.
-
-__default__
-
-_array | optional_
-
-The default value of the field.
-
-Note: the default value must exists within choices
-
-__priority__
-
-_integer | optional_
-
-Determines the order of fields in section.
-
-__size__
-
-_array | optional_
-
-Holds the width and height.
-
-Note: "width" and "height" is required when using size and also supply by string.
-
-__direction__
-
-_string | optional | default : row_
-
-Determine the direction in displaying in front-end their are two directions "row" and "column".
-
-Note: direction must be supplied only within "row" and "column"].
-
-__choices__
-
-_required | optional_
-
-The list of choices to be displayed.
-
-Note: each key must have "image" and "title" and supplied with string.
-
-Note: "image" - the image holds the url of image to added in src - required - string.
-
-Note: "title" - this will be used as title attribute in image - required - string.
-
-#### Examples
-
-```php
-Customizer::field('image-checkbox', [
-   'id'                 => 'imagecheckboxdb1',
-   'label'              => 'Select Font Style',
-   'description'        => 'Choose the best font style.',
-   'section'            => 'section_id',
-   'priority'           => 1,
-   'choices'            => [
-      'bold' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/bold.png',
-	      'title'    => 'Bold'
-      ],
-      'italic' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/italic.png',
-	      'title'    => 'Italic'
-      ],
-      'allcaps' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/allcaps.png',
-	      'title'    => 'All Caps'
-      ],
-      'inderline' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/underline.png',
-	      'title'    => 'Underline'
-      ]
-   ]
-]);
-```
-
-Example with default value! note: default value must exist in choices.
-
-```php
-Customizer::field('image-checkbox', [
-   'id'                 => 'imagecheckboxdb1',
-   'label'              => 'Select Font Style',
-   'description'        => 'Choose the best font style.',
-   'section'            => 'section_id',
-   'default'            => [ 'bold', 'italic' ],
-   'priority'           => 1,
-   'choices'            => [
-      'bold' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/bold.png',
-	      'title'    => 'Bold'
-      ],
-      'italic' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/italic.png',
-	      'title'    => 'Italic'
-      ],
-      'allcaps' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/allcaps.png',
-	      'title'    => 'All Caps'
-      ],
-      'inderline' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/underline.png',
-	      'title'    => 'Underline'
-      ]
-   ]
-]);
-```
-
-Example with size value! note: size must be provided with width or height.
-
-```php
-Customizer::field('image-checkbox', [
-   'id'                 => 'imagecheckboxdb1',
-   'label'              => 'Select Font Style',
-   'description'        => 'Choose the best font style.',
-   'section'            => 'section_id',
-   'default'            => [ 'bold', 'italic' ],
-   'priority'           => 1,
-   'size'               => [
-      'width'    => '50px',
-      'height'   => '50px'
-   ],
-   'choices'            => [
-      'bold' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/bold.png',
-	      'title'    => 'Bold'
-      ],
-      'italic' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/italic.png',
-	      'title'    => 'Italic'
-      ],
-      'allcaps' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/allcaps.png',
-	      'title'    => 'All Caps'
-      ],
-      'inderline' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/underline.png',
-	      'title'    => 'Underline'
-      ]
-   ]
-]);
-```
-
-Example with direction value! note: row and column are the valid direction.
-
-```php
-Customizer::field('image-checkbox', [
-   'id'                 => 'imagecheckboxdb1',
-   'label'              => 'Select Font Style',
-   'description'        => 'Choose the best font style.',
-   'section'            => 'section_id',
-   'default'            => [ 'bold', 'italic' ],
-   'priority'           => 1,
-   'direction'          => 'column',
-   'size'               => [
-      'width'    => '50px',
-      'height'   => '50px'
-   ],
-   'choices'            => [
-      'bold' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/bold.png',
-	      'title'    => 'Bold'
-      ],
-      'italic' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/italic.png',
-	      'title'    => 'Italic'
-      ],
-      'allcaps' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/allcaps.png',
-	      'title'    => 'All Caps'
-      ],
-      'inderline' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/underline.png',
-	      'title'    => 'Underline'
-      ]
-   ]
-]);
-```
-
-#### Usage
-
-The `\CustomizerFramework\get_decoded_values()` function is recommended to retrieve data.
-
-```php
-// Return a array
-$checked = \CustomizerFramework\get_decoded_values('imagecheckboxdb1');
-```
-
-#### Image Radio
-
-The `image-radio` lets you add image radio field.
-
-#### Parameters
-
-Here are the parameters in adding image-radio.
-
-__id__
-
-_string | required_
-
-A unique slug-like string to use as an id and also as index in saving data in database.
-
-__label__
-
-_string | optional_
-
-The label of the field.
-
-__description__
-
-_string | optional_
-
-The description of the field and display under the label.
-
-__section__
-
-_string | requiredl_
-
-The section where the field will be displayed.
-
-__default__
-
-_string | optional_
-
-The default value of the field.
-
-Note: the default value must exists within choices
-
-__priority__
-
-_integer | optional_
-
-Determines the order of fields in section.
-
-__size__
-
-_array | optional_
-
-Holds the width and height.
-
-Note: "width" and "height" is required when using size and also supply by string.
-
-__direction__
-
-_string | optional | default : row_
-
-Determine the direction in displaying in front-end their are two directions "row" and "column".
-
-Note: direction must be supplied only within "row" and "column".
-
-__choices__
-
-_required | optional_
-
-The list of choices to be displayed.
-
-Note: each key must have "image" and "title" and supplied with string.
-
-Note: "image" - the image holds the url of image to added in src - required - string.
-
-Note: "title" - this will be used as title attribute in image - required - string.
-
-#### Examples
-
-```php
-Customizer::field('image-radio', [
-   'id'                 => 'imageradiodb1',
-   'label'              => 'Select Font Style',
-   'description'        => 'Choose the best font style.',
-   'section'            => 'section_id',
-   'priority'           => 1,
-   'choices'            => [
-      'bold' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/bold.png',
-	      'title'    => 'Bold'
-      ],
-      'italic' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/italic.png',
-	      'title'    => 'Italic'
-      ],
-      'allcaps' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/allcaps.png',
-	      'title'    => 'All Caps'
-      ],
-      'inderline' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/underline.png',
-	      'title'    => 'Underline'
-      ]
-   ]
-]);
-```
-
-Example with default value! note: default value must exist in choices.
-
-```php
-Customizer::field('image-radio', [
-   'id'                 => 'imageradiodb1',
-   'label'              => 'Select Font Style',
-   'description'        => 'Choose the best font style.',
-   'section'            => 'section_id',
-   'default'            => 'bold',
-   'priority'           => 1,
-   'choices'            => [
-      'bold' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/bold.png',
-	      'title'    => 'Bold'
-      ],
-      'italic' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/italic.png',
-	      'title'    => 'Italic'
-      ],
-      'allcaps' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/allcaps.png',
-	      'title'    => 'All Caps'
-      ],
-      'inderline' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/underline.png',
-	      'title'    => 'Underline'
-      ]
-   ]
-]);
-```
-
-Example with size value! note: size must be provided with width or height.
-
-```php
-Customizer::field('image-radio', [
-   'id'                 => 'imageradiodb1',
-   'label'              => 'Select Font Style',
-   'description'        => 'Choose the best font style.',
-   'section'            => 'section_id',
-   'default'            => 'bold',
-   'priority'           => 1,
-   'size'               => [
-      'width'    => '50px',
-      'height'   => '50px'
-   ],
-   'choices'            => [
-      'bold' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/bold.png',
-	      'title'    => 'Bold'
-      ],
-      'italic' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/italic.png',
-	      'title'    => 'Italic'
-      ],
-      'allcaps' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/allcaps.png',
-	      'title'    => 'All Caps'
-      ],
-      'inderline' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/underline.png',
-	      'title'    => 'Underline'
-      ]
-   ]
-]);
-```
-
-Example with direction value! note: row and column are the valid direction.
-
-```php
-Customizer::field('image-radio', [
-   'id'                 => 'imageradiodb1',
-   'label'              => 'Select Font Style',
-   'description'        => 'Choose the best font style.',
-   'section'            => 'section_id',
-   'default'            => 'bold',
-   'priority'           => 1,
-   'direction'          => 'column',
-   'size'               => [
-      'width'    => '50px',
-      'height'   => '50px'
-   ],
-   'choices'            => [
-      'bold' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/bold.png',
-	      'title'    => 'Bold'
-      ],
-      'italic' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/italic.png',
-	      'title'    => 'Italic'
-      ],
-      'allcaps' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/allcaps.png',
-	      'title'    => 'All Caps'
-      ],
-      'inderline' => [
-	      'image'    => trailingslashit( get_template_directory_uri() ) .'image/underline.png',
-	      'title'    => 'Underline'
-      ]
-   ]
-]);
-```
-
-#### Usage
-
-The `get_theme_mod()` function is recommended to retrieve data.
-
-```php
-// Returns an string
-$checked = get_theme_mod('imageradiodb1');
 ```
 
 #### Image Uploader
@@ -2449,7 +2018,9 @@ Customizer::field('numeric', [
 ]);
 ```
 
-Example with default value! note: default value must be numeric type.
+Example with `default` value.
+
+Note: The `default` value must be numeric type.
 
 ```php
 Customizer::field('numeric', [
@@ -2477,6 +2048,7 @@ echo get_theme_mod('numericdb1');
 ```
 
 #### Radio
+
 The `radio` lets you add a field radio.
 
 #### Parameters
@@ -2528,6 +2100,7 @@ _array | required_
 List of choices.
 
 #### Examples
+
 ```php
 Customizer::field('radio', [
    'id'             => 'radiodb1',
@@ -2614,21 +2187,29 @@ _integer | optional_
 
 Determines the order of fields in section.
 
-__min__
+__options__
+
+_array | optional_
+
+Set of options.
+
+__options['min']__
 
 _integer | required_
 
 Minimum value set.
 
-__max__
+__options['max']__
 
 _integer | required_
 
 Maximum value set.
 
-__step__
+__options['step']__
 
 _int | optional_
+
+Stepper value.
 
 Stepper value.
 
@@ -2641,9 +2222,11 @@ Customizer::field('range', [
    'description' => 'Limit Number Of Visitor.',
    'section'     => 'section_id',
    'priority'    => 1,
-   'min'         => 0,
-   'max'         => 100,
-   'step'        => 1
+   'options' => [
+       'min'   => 0,
+       'max'   => 100,
+       'step'  => 1
+   ]
 ]);
 ```
 
@@ -2657,9 +2240,11 @@ Customizer::field('range', [
    'section'     => 'section_id',
    'default'     => 50,
    'priority'    => 1,
-   'min'         => 0,
-   'max'         => 100,
-   'step'        => 1
+   'options' => [
+       'min'   => 0,
+       'max'   => 100,
+       'step'  => 1
+   ]
 ]);
 ```
 
@@ -2848,7 +2433,7 @@ Customizer::field('size', [
    'label'       => 'Enter Padding Size',
    'description' => 'Add size in here.',
    'section'     => 'section_id',
-   'default'     => '10px',
+   'default'     => '2em',
    'priority'    => 1,
    'placeholder' => 'Enter size',
    'units'       => [ 'px', 'em' ],
@@ -2862,126 +2447,6 @@ The `get_theme_mod()` function is recommended to retrieve data.
 ```php
 // Return a integer
 echo get_theme_mod('sizedb1');
-```
-
-#### Sortable
-
-The `sortable` lets you add list to be sort.
-
-#### Parameters
-Here are the parameters in adding sortable.
-
-__id__
-
-_string | required_
-
-A unique slug-like string to use as an id and also as index in saving data in database.
-
-__label__
-
-_string | optional_
-
-The label of the field.
-
-__description__
-
-_string | optional_
-
-The description of the field and display under the label.
-
-__section__
-
-_string | requiredl_
-
-The section where the field will be displayed.
-
-__default__
-
-_array | optional_
-
-The default value of the field.
-
-Note: default values must exist in items.
-
-__priority__
-
-_integer | optional_
-
-Determines the order of fields in section.
-
-__handle__
-
-_boolean | optional_
-
-Adds a handler icon.
-
-__items__
-
-_array | optional_
-
-Set of data to use as choices in sorting.
-
-#### Example
-
-```php
-Customizer::field('sortable', [
-   'id'          => 'sortabledb1',
-   'label'       => 'Arrange Items',
-   'description' => 'Please sort the list bellow.',
-   'section'     => 'section_id',
-   'priority'    => 1,
-   'items'       => [
-      1 => 'One',
-      2 => 'Two',
-      3 => 'Three'
-   ]
-]);
-```
-
-Example with default value! note: default values must exist in items.
-
-```php
-Customizer::field('sortable', [
-   'id'          => 'sortabledb1',
-   'label'       => 'Arrange Items',
-   'description' => 'Please sort the list bellow.',
-   'section'     => 'section_id',
-   'default'     => [ 2, 3 ],
-   'priority'    => 1,
-   'items'       => [
-      1 => 'One',
-      2 => 'Two',
-      3 => 'Three'
-   ]
-]);
-```
-
-Example with handle value! note: handle value must be boolean.
-
-```php
-Customizer::field('sortable', [
-   'id'          => 'sortabledb1',
-   'label'       => 'Arrange Items',
-   'description' => 'Please sort the list bellow.',
-   'section'     => 'section_id',
-   'default'     => [ 2, 3 ],
-   'priority'    => 1,
-   'handle'      => true,
-   'items'       => [
-      1 => 'One',
-      2 => 'Two',
-      3 => 'Three'
-   ]
-]);
-```
-
-#### Usage
-
-The `\CustomizerFramework\get_decoded_values()` function is recommended to retrieve data.
-
-```php
-// Returns a array
-$order = \CustomizerFramework\get_decoded_values('sortabledb1');
 ```
 
 #### Switch
@@ -3060,229 +2525,6 @@ The `get_theme_mod()` function is recommended to retrieve data.
 ```php
 // Returns boolean
 $is_checked = get_theme_mod('switchdb1');
-```
-
-#### Tagging
-
-The `tagging` lets you add a tagging field.
-
-#### Parameters
-
-Here are the parameters in adding tagging.
-
-__id__
-
-_string | required_
-
-A unique slug-like string to use as an id and also as index in saving data in database.
-
-__label__
-
-_string | optional_
-
-The label of the field.
-
-__description__
-
-_string | optional_
-
-The description of the field and display under the label.
-
-__section__
-
-_string | requiredl_
-
-The section where the field will be displayed.
-
-__default__
-
-_array | optional_
-
-The default value of the field.
-
-__priority__
-
-_integer | optional_
-
-Determines the order of fields in section.
-
-__placeholder__
-
-_string | optional_
-
-Display placeholder in the field.
-
-__maxitem__
-
-_int | optional_
-
-The limit number of tags.
-
-#### Examples
-
-```php
-Customizer::field('tagging', [
-   'id'            => 'taggingdb1',
-   'label'         => 'Enter your favorite fruits',
-   'description'   => 'description.',
-   'section'       => 'section_id',
-   'priority'      => 1,
-   'maxitem'       => 5,
-]);
-```
-
-Example with default value! note: default value must exist in choices.
-
-```php
-Customizer::field('tagging', [
-   'id'            => 'taggingdb1',
-   'label'         => 'Enter your favorite fruits',
-   'description'   => 'description.',
-   'section'       => 'section_id',
-   'default'       => [ 'apple', 'grapes' ],
-   'priority'      => 1,
-   'maxitem'       => 5
-]);
-```
-
-#### Usage
-
-The `\CustomizerFramework\get_special_values()` function is recommended to retrieve data.
-
-```php
-// Returns a array
-$tags = \CustomizerFramework\get_special_values('taggingdb1');
-```
-
-#### Tagging Select
-
-The `tagging-select` lets you add a tagging select field.
-
-#### Parameters
-
-Here are the parameters in adding tagging-select.
-
-__id__
-
-_string | required_
-
-A unique slug-like string to use as an id and also as index in saving data in database.
-
-__label__
-
-_string | optional_
-
-The label of the field.
-
-__description__
-
-_string | optional_
-
-The description of the field and display under the label.
-
-__section__
-
-_string | requiredl_
-
-The section where the field will be displayed.
-
-__default__
-
-_array | optional_
-
-The default value of the field.
-
-Note: default values must exist in choices.
-
-__priority__
-
-_integer | optional_
-
-Determines the order of fields in section.
-
-__placeholder__
-
-_string | optional_
-
-Display placeholder in the field.
-
-__choices__
-
-_array | optional_
-
-List of choices.
-
-__maxitem__
-
-_int | optional_
-
-The limit number of tags.
-
-#### Examples
-
-```php
-Customizer::field('tagging-select', [
-   'id'            => 'taggingselectdb1',
-   'label'         => 'Enter your close friends',
-   'description'   => 'description.',
-   'section'       => 'section_id',
-   'priority'      => 1,
-   'maxitem'       => 5,
-   'choices'       => [
-      'apple'  => 'Apple',
-      'grapes' => 'Grapes',
-      'orange' => 'Orange',
-      'banana' => 'Banana',
-      'lemon'  => 'Lemon'
-   ]
-]);
-```
-
-Example with default value! note: default value must exist in choices.
-
-```php
-Customizer::field('tagging-select', [
-   'id'            => 'taggingselectdb1',
-   'label'         => 'Enter your close friends',
-   'description'   => 'description.',
-   'section'       => 'section_id',
-   'default'       => [ 'apple', 'grapes' ],
-   'priority'      => 1,
-   'maxitem'       => 5,
-   'choices'       => [
-      'apple'  => 'Apple',
-      'grapes' => 'Grapes',
-      'orange' => 'Orange',
-      'banana' => 'Banana',
-      'lemon'  => 'Lemon'
-   ]
-]);
-```
-
-Example with using `Utilities API`. The `Util::_get_pages()` will return the page id and page title.
-
-```php
-use CustomizerFramework\Core\Customizer;
-use CustomizerFramework\Lib\Util;
-
-Customizer::field('tagging-select', [
-   'id'            => 'taggingselectdb1',
-   'label'         => 'Enter your close friends',
-   'description'   => 'description.',
-   'section'       => 'section_id',
-   'priority'      => 1,
-   'maxitem'       => 5,
-   'choices'       => Util::_get_pages()
-]);
-```
-
-#### Usage
-
-The `\CustomizerFramework\get_special_values()` function is recommended to retrieve data.
-
-```php
-// Returns a array
-$tags = \CustomizerFramework\get_special_values('taggingselectdb1');
 ```
 
 #### Text
@@ -3987,7 +3229,7 @@ Customizer::field( 'select', [
 
 #### Gets material colors
 
-The `Util::_get_material_colors($type)` returns a set of material colors. It has 1 parameter `$type` and here are the valid types `all`, `primary`, `a100`, `a200`, `a400`, `a700`, `red`, `pink`, `purple`, `deepPurple`, `indigo`, `lightBlue`, `cyan`, `teal`, `green`, `lightGreen`, `lime`, `yellow`, `amber`, `orange`, `deepOrange`, `brown`, `grey`, `blueGrey`.
+The `Util::_get_material_colors($type)` returns a set of material colors. It has 1 parameter `$type` and here are the valid types `all` , `primary` , `a100` , `a200` , `a400` , `a700` , `red` , `pink` , `purple` , `deepPurple` , `indigo` , `lightBlue` , `cyan` , `teal` , `green` , `lightGreen` , `lime` , `yellow` , `amber` , `orange` , `deepOrange` , `brown` , `grey` , `blueGrey` .
 
 ```php
 use CustomizerFramework\Core\Customizer;
@@ -4105,6 +3347,7 @@ function is_valid_name_customizer_validation( $validity, $value ) {
    return $validity;
 }
 ```
+
 #### Validation Rules
 
 Here are the list of available validation rules.
@@ -4214,7 +3457,7 @@ __in_list__
 
 parameter (string)
 error message - "Value must be in predermined list #parameter#"
-example: in_list[apple,grapes,mango]
+example: in_list[apple, grapes, mango]
 
 print error message if value is not in predetermined list value
 
@@ -4222,7 +3465,7 @@ __not_in_list__
 
 parameter (string)
 error message - "Total words must be exactly #parameter#"
-example: not_in_list[apple,grapes,mango]
+example: not_in_list[apple, grapes, mango]
 print error message if value is in predetermined list value
 
 __total_words__

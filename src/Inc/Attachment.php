@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace CustomizerFramework\Attachment;
+namespace CustomizerFramework\Inc;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -31,22 +31,6 @@ class Attachment
 	public function __construct(array $data)
     {
 		$this->data = $data;
-	}
-
-	/**
-	 * Returns the root directory path of this plugin.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	private function path()
-    {
-		if ( strpos( wp_normalize_path( __DIR__ ), wp_normalize_path( WP_PLUGIN_DIR ) ) === 0 ) {
-			return plugin_dir_url( __DIR__ );
-		}
-
-		return trailingslashit( get_template_directory_uri() );
 	}
 
 	/**
@@ -389,7 +373,6 @@ class Attachment
 	public function create()
     {
 	?>
-
 		<div class="customizer-framework--attachment-parent <?php echo esc_attr( $this->data['type'] ); ?>">
 
 			<!-- Labels -->
@@ -412,11 +395,9 @@ class Attachment
 				   <?php echo $this->get_link(); ?>>
 
 			<div class="customizer-framework--attachment-container">
-
 				<div id="customizer-framework--attachment-error-<?php echo esc_attr( $this->data['id'] ); ?>" class="customizer-framework--custom-error">
 					<p>Error Message</p>
 				</div>
-
 				<div id="customizer-framework--attachment-btn-open-<?php echo esc_attr( $this->data['id'] ); ?>"
 					 class="customizer-framework--attachment-btn-open customizer-framework--attachment-upload <?php echo esc_attr( $this->get_status(1) ); ?>"
 					 data-id="<?php echo esc_attr( $this->data['id'] ); ?>"
@@ -446,16 +427,17 @@ class Attachment
 										</p>
 									</div>
 								</div>
-					<?php endif; ?>
-					<!-- Error Actions -->
-					<div id="customizer-framework--attachment-btn-not-found-<?php echo esc_attr( $this->data['id'] ); ?>"
-						 class="customizer-framework--attachment-btn-open customizer-framework--attachment-upload error <?php echo esc_attr( $this->get_attachment_status(2)['status'] ); ?>"
-						 data-id="<?php echo esc_attr( $this->data['id'] ); ?>"
-						 data-type="<?php echo esc_attr( $this->data['type'] ); ?>"
-						 data-extensions="<?php echo esc_attr( $this->get_extensions() ); ?>">
-						 <i class="dashicons <?php echo esc_attr( $this->get_icon() ); ?>"></i>
-						 <p><b><?php echo $this->get_error( $this->get_attachment_status(2)['error'] ); ?></b></p>
-					</div><!-- End: Error Actions -->
+					<?php else : ?>
+                        <!-- Error Actions -->
+                        <div id="customizer-framework--attachment-btn-not-found-<?php echo esc_attr( $this->data['id'] ); ?>"
+                            class="customizer-framework--attachment-btn-open customizer-framework--attachment-upload error <?php echo esc_attr( $this->get_attachment_status(2)['status'] ); ?>"
+                            data-id="<?php echo esc_attr( $this->data['id'] ); ?>"
+                            data-type="<?php echo esc_attr( $this->data['type'] ); ?>"
+                            data-extensions="<?php echo esc_attr( $this->get_extensions() ); ?>">
+                            <i class="dashicons <?php echo esc_attr( $this->get_icon() ); ?>"></i>
+                            <p><b><?php echo $this->get_error( $this->get_attachment_status(2)['error'] ); ?></b></p>
+                        </div><!-- End: Error Actions -->
+                    <?php endif ?>
 					<!-- End Thumbnail -->
 
 					<!-- Actions -->
@@ -468,12 +450,11 @@ class Attachment
 					 			data-extensions="<?php echo esc_attr( $this->get_extensions() ); ?>">Change</button>
 					</div>
 					<!-- End Actions -->
+                </div>
 
-				</div>
+                <p>This field accepts only: .<?php echo implode(', .', $this->data['extensions']) ?></p>
 			</div>
-
 		</div>
-
 	<?php
 	}
 }

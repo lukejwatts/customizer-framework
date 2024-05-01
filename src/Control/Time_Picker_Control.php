@@ -4,6 +4,8 @@ namespace CustomizerFramework\Control;
 
 defined( 'ABSPATH' ) || exit;
 
+use function CustomizerFramework\assets_url;
+
 /**
  * Time Picker Control.
  *
@@ -21,17 +23,6 @@ final class Time_Picker_Control extends \WP_Customize_Control
 	 */
 	public $military_format;
 
-
-	/**
-	 * The placeholder in input.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var string
-	 */
-	public $placeholder;
-
-
 	/**
 	 * Adding third party libraries.
 	 *
@@ -40,12 +31,12 @@ final class Time_Picker_Control extends \WP_Customize_Control
 	public function enqueue() {
 		// css
 		if ( wp_style_is( 'customizer-framework--flatpickr-css', 'enqueued' ) == false ){
-			wp_enqueue_style( 'customizer-framework--flatpickr-css', \CustomizerFramework\resource_url(). 'assets/flatpickr/flatpickr.min.css' );
+			wp_enqueue_style( 'customizer-framework--flatpickr-css', assets_url() . '/flatpickr/flatpickr.min.css' );
 		}
 
 		// js
 		if ( wp_script_is( 'customizer-framework--flatpickr-js', 'enqueued' ) == false ){
-			wp_enqueue_script( 'customizer-framework--flatpickr-js', \CustomizerFramework\resource_url(). 'assets/flatpickr/flatpickr.min.js', array('jquery'), '1.0', true );
+			wp_enqueue_script( 'customizer-framework--flatpickr-js', assets_url() . '/flatpickr/flatpickr.min.js', array('jquery'), '1.0', true );
 		}
 	}
 
@@ -83,7 +74,7 @@ final class Time_Picker_Control extends \WP_Customize_Control
 					   data-id="<?php echo esc_attr( $this->id ); ?>"
 					   data-military_format="<?php echo esc_attr( $this->military_format ); ?>"
 					   data-value="<?php echo esc_attr( $this->value() ); ?>"
-					   placeholder="<?php echo esc_attr( $this->placeholder ); ?>">
+					   placeholder="<?php echo (isset($this->input_attrs['placeholder'])) ? esc_attr($this->input_attrs['placeholder']) : '' ?>">
 
 				<button class="customizer-framework--time-picker-btn customizer-framework--time-picker-btn-open" data-id="<?php echo esc_attr( $this->id ); ?>">
 					<i class="dashicons dashicons-clock"></i>

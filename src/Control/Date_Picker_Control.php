@@ -4,6 +4,8 @@ namespace CustomizerFramework\Control;
 
 defined( 'ABSPATH' ) || exit;
 
+use function CustomizerFramework\assets_url;
+
 /**
  * Date Picker Control.
  *
@@ -50,12 +52,12 @@ final class Date_Picker_Control extends \WP_Customize_Control
 	public function enqueue() {
 		// css
 		if ( wp_style_is( 'customizer-framework--flatpickr-css', 'enqueued' ) == false ){
-			wp_enqueue_style( 'customizer-framework--flatpickr-css', \CustomizerFramework\resource_url(). 'assets/flatpickr/flatpickr.min.css' );
+			wp_enqueue_style( 'customizer-framework--flatpickr-css', assets_url() . '/flatpickr/flatpickr.min.css' );
 		}
 
 		// js
 		if ( wp_script_is( 'customizer-framework--flatpickr-js', 'enqueued' ) == false ){
-			wp_enqueue_script( 'customizer-framework--flatpickr-js', \CustomizerFramework\resource_url(). 'assets/flatpickr/flatpickr.min.js', array('jquery'), '1.0', true );
+			wp_enqueue_script( 'customizer-framework--flatpickr-js', assets_url() . '/flatpickr/flatpickr.min.js', array('jquery'), '1.0', true );
 		}
 	}
 

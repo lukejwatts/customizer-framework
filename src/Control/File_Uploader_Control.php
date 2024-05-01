@@ -4,7 +4,7 @@ namespace CustomizerFramework\Control;
 
 defined( 'ABSPATH' ) || exit;
 
-use CustomizerFramework\Attachment\Attachment;
+use CustomizerFramework\Inc\Attachment;
 
 
 /**
